@@ -1,0 +1,24 @@
+title Loading Note Single Page APP
+
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+Server-->Browser: spa
+
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser: main.css
+
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+Server-->Browser: spa.js
+
+Note over Browser:
+Browser starts executing JavaScript code
+end note
+
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server --> Browser: data.json
+
+Browser->Server: GET https://studies.cs.helsinki.fi/favicon.ico
+Server-->Browser: favicon.ico
+
+note over Browser:
+Browser displays data (notes)
+end note

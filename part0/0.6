@@ -1,0 +1,16 @@
+title New Note Single Page APP
+
+User->Browser: INPUT note
+
+note over Browser:
+User inputs data into browser and submits
+end note
+
+Browser->Server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server-->Browser: new_note_spa
+
+note over Browser:
+Note data gets send to server, 
+new note gets loaded onto the page from server, 
+without loading entire page again
+end note

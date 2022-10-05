@@ -1,0 +1,35 @@
+title New Note
+
+User->Browser: INPUT
+Browser->Server: HTTP POST new_note https://studies.cs.helsinki.fi/exampleapp/new_note
+Browser-->Server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+Server -->Browser: notes
+
+Note over Browser:
+User has inputted data onto the browser and clicks submit.
+After this, the browser posts the data onto the server.
+After this, the server sends the data back onto the browser to be displayed.
+end note
+
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+Server-->Browser: main.css
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+Server-->Browser: main.js
+
+note over Browser:
+Page gets loaded onto browser from server
+end note
+
+Browser->Server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+Server-->Browser: data.json
+
+note over Browser:
+all data taken from server in Json format
+end note
+
+Browser->Server: GET https://studies.cs.helsinki.fi/favicon.ico
+Server-->Browser: favicon.ico
+
+note over Browser:
+Icon, part of one of the notes gets retrieved from server onto browser
+end note
