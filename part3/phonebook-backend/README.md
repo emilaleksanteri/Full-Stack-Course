@@ -1,2 +1,2 @@
 https://emilphonebookapp.fly.dev/api/persons
-https://emilphonebookapp.fly
+https://emilphonebookapp.fly.dev/
