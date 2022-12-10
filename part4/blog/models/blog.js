@@ -16,7 +16,7 @@ const blogSchema = new mongoose.Schema({
 })
 
 // does not allow for missing likes field
-function ifLikesZero(object) {
+function ifLikesMissing(object) {
   if ('likes' in object === false){
     return object.likes = 0
   } else {
@@ -30,7 +30,7 @@ blogSchema.set('toJSON', {
         returnedObject.id = returnedObject._id.toString()
         delete returnedObject._id
         delete returnedObject.__v
-        ifLikesZero(returnedObject)
+        ifLikesMissing(returnedObject)
     }
 })
 
