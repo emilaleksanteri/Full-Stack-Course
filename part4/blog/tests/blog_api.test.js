@@ -6,7 +6,6 @@ const Blog = require('../models/blog')
 const api = supertest(app)
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
-const { response } = require('../app')
 
 // testing on users
 
