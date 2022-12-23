@@ -205,6 +205,27 @@ describe('adding blog to db', () => {
     expect(titles).toContain('A secret to valid blog')
   })
 
+  test('if no token, give 401 unauthorized', async () => {
+    const blogsAtStart = await helper.allBlogs()
+
+    const blog = {
+      title: 'this can not be posted',
+      author: 'no token user',
+      url: 'www.getTokens.inc.co',
+      likes: 999999
+    }
+
+    const post = await api
+      .post('/api/blogs')
+      .send(blog)
+      .expect(401)
+
+    const blogsEnd = await helper.allBlogs()
+
+    expect(post.body.error).toContain('token missing or invalid')
+    expect(blogsEnd).toHaveLength(blogsAtStart.length)
+  })
+
   test('no likes -> default to 0', async () => {
     // makes all missing likes fields into likes: 0
     const blogs = helper.initialBlogs.map(blog => {
