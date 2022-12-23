@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-    "title": "My Second Blog",
-    "author": "Emil.Lystimaki",
-    "url": "no url, sad",
-    "likes": 1
+    "title": "React Labs: What We've Been Working On June 2022",
+    "author": "React Labs Team",
+    "url": "https://reactjs.org/blog/2022/06/15/react-labs-what-we-have-been-working-on-june-2022.html",
+    "userId": "63a42f4628b9abe7bf3c5955"
 }

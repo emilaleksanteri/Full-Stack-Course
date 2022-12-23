@@ -7,6 +7,8 @@ const blogRouter = require('./controllers/blogs')
 const mongoose = require('mongoose')
 const middleware = require('./utils/middleware')
 const logger = require('./utils/logger')
+const usersRouter = require('./controllers/users')
+const loginRouter = require('./controllers/login')
 
 // so that we can see if connection request went through
 logger.info('connecting to', config.MONGODB_URI)
@@ -31,6 +33,15 @@ app.use(express.json())
 
 // whats going on
 app.use(middleware.requestLogger)
+
+// gets token after login
+app.use(middleware.tokenExtractor)
+
+// user signup
+app.use('/api/users', usersRouter)
+
+// handels user login
+app.use('/api/login', loginRouter)
 
 // path in localhost has to be established to router
 app.use('/api/blogs', blogRouter)
