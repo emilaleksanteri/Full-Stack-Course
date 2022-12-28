@@ -4,14 +4,14 @@ const Error = (props) => {
   }
 
   const errorStyle = {
-    border: "solid red",
-    borderRadius: "10px",
-    backgroundColor: "lightgrey",
-    padding: "10px",
-    fontSize: "20px",
-    color: "red"
+    border: 'solid red',
+    borderRadius: '10px',
+    backgroundColor: 'lightgrey',
+    padding: '10px',
+    fontSize: '20px',
+    color: 'red'
   }
-  
+
   return (
     <p style={errorStyle}>{props.error}</p>
   )

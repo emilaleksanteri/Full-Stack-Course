@@ -31,5 +31,4 @@ const remove = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, authHeader)
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default { getAll, setToken, post, update, remove }

@@ -31,7 +31,7 @@ const App = () => {
       )
       blogService.setToken(user.token) // pass token to services to use
       setUser(user)
-      
+
       setNotification(`welcome ${user.name}`)
       setTimeout(() => {
         setNotification(null)
@@ -64,7 +64,6 @@ const App = () => {
     setUser(null)
   }
 
-
   // post blog to db
   const postBlog = async (blogObject) => {
     try {
@@ -72,13 +71,13 @@ const App = () => {
       const blogNew = await blogService.post(blogObject)
       setBlogs(blogs.concat(blogNew))
 
-      setNotification(`${blogNew.title} ${blogNew.author} added`) // indication to the user
+      setNotification(`${blogNew.title} by ${blogNew.author} added`) // indication to the user
       setTimeout(() => {
         setNotification(null)
-      }, 5000)
+      }, 3000)
 
     } catch (excpetion) {
-      setError(`post failed, missing fields`)
+      setError('post failed, missing fields')
       setTimeout(() => {
         setError(null)
       }, 2000)
@@ -92,7 +91,7 @@ const App = () => {
       setNotification(`${updatedBlogObject.user.username} appreciates the like`) // show that like was succesful
       setTimeout(() => {
         setNotification(null)
-      }, 3000)  
+      }, 2000)
     } catch (excpetion) {
       setError('like failed..')
       setTimeout(() => {
@@ -109,7 +108,7 @@ const App = () => {
         await blogService.remove(id)
         const newBlogs = await blogService.getAll() // get updated blogs to display from db
         setBlogs(newBlogs)
-  
+
         setNotification(`${deleteBlogObject.title} removed`) // let user know about success
         setTimeout(() => {
           setNotification(null)
@@ -132,7 +131,7 @@ const App = () => {
       return <Login loginUser={loginUser} />
     }
 
-    // default 
+    // default
     return (
       <div>
         <p>
@@ -158,7 +157,7 @@ const App = () => {
       {pageContentControls()}
       {sortByLikes.map(blog =>
         <Blog key={blog.id} blog={blog} likePost={likePost} removeBlog={removeBlog} user={user}/>
-        )}
+      )}
     </>
   )
 }
