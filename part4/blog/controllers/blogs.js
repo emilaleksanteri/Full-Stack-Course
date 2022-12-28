@@ -37,21 +37,21 @@ blogRouter.post('/', userExtractor, async (request, response) => {
 
 // delete blog
 blogRouter.delete('/:id', userExtractor, async (request, response) => {
-
-  // get user id
-  const token = request.token
-  
-  // get user for blog 
-  const user = request.user
-
-  if (user.id === token.id) {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
-  } else {
+  // try to find blog in db
+  const blog = await Blog.findById(request.params.id)
+  // if already deleted, let user know its deleted
+  if (!blog) {
+    return response.status(204).end()
+  }
+  // unautorized user
+  if ( blog.user && blog.user.toString() !== request.user.id ) {
     return response.status(401).json({
-      error: 'token missing or invalid'
+      error: 'unauthorized action, only creator can delete posts'
     })
   }
+  // if all passed, delete
+  await Blog.findByIdAndDelete(request.params.id)
+  response.status(204).end()
 })
 
 // edit a blog -> likes can change

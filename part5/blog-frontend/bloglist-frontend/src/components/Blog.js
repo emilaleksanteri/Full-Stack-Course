@@ -1,7 +1,54 @@
-const Blog = ({blog}) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>  
-)
+import { useState } from "react"
+import ShowRemove from "./ShowRemve"
+
+const Blog = ({ blog, likePost, removeBlog, user }) => {
+  const [showMore, setShowMore] = useState(false)
+
+  const showLess = {
+    display: showMore ? 'none' : '',
+    border: 'solid black',
+    padding: '8px',
+    marginBottom: '4px',
+    marginTop: '4px'
+  }
+
+  // wanted to have different border for the object in view for seperation
+  const showAll = {
+    display: showMore ? '' : 'none',
+    border: 'solid green',
+    padding: '8px',
+    marginBottom: '4px',
+    marginTop: '4px'
+  }
+
+  const showMoreToggle = () => {
+    setShowMore(!showMore)
+  }
+
+  const likeBlog = () => {
+    blog.likes += 1
+    likePost(blog) // function call for App
+  }
+
+  // really just a function to relay delete function call to ShowRemove from App
+  const deleteBlog = () => {
+    removeBlog(blog)
+  }
+
+  return (
+    <div>
+      <div style={showLess}>
+        <p>{blog.title} | {blog.author} <button onClick={showMoreToggle}>view</button></p>
+      </div>
+      <div style={showAll}>
+        <p>{blog.title} | {blog.author} <button onClick={showMoreToggle}>hide</button></p>
+        <p>{blog.url}</p>
+        <p>Likes {blog.likes} <button onClick={likeBlog}>like</button></p>
+        <p>{blog.user.username}</p>
+        <ShowRemove user={user} blog={blog} deleteBlog={deleteBlog} />
+      </div>
+    </div>
+  )
+}
 
 export default Blog
