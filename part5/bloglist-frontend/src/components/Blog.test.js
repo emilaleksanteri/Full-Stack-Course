@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('<Blog />', () => {
+  // setup for props
   const blog = {
     title: 'Testing Blogs',
     author: 'Blog author',
@@ -22,7 +23,7 @@ describe('<Blog />', () => {
   const likePost = jest.fn()
   const removeBlog = jest.fn()
 
-  let container
+  let container // var to store Component
 
   beforeEach(() => {
     container = render(
@@ -48,11 +49,10 @@ describe('<Blog />', () => {
   })
 
   test('like btn clicked twice -> likePost function gets 2 calls', async () => {
-    // can click btn without clicking view as content technically is on the page already, just not shown
+    // can click btn without clicking view, content technically is on the page already, just not shown
     const user = userEvent.setup()
 
-    // click like twice
-    for (let count = 0; count < 2; count++) {
+    for (let count = 0; count < 2; count++) { // click like twice
       const btnLike = screen.getByText('like')
       await user.click(btnLike)
     }
