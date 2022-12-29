@@ -38,10 +38,11 @@ const Blog = ({ blog, likePost, removeBlog, user }) => {
 
   return (
     <div>
-      <div style={showLess}>
+      <div style={showLess} >
         <p>{blog.title} | {blog.author} <button onClick={showMoreToggle}>view</button></p>
       </div>
-      <div style={showAll}>
+      { /* shown after clicking view */ }
+      <div style={showAll} className="expanded">
         <p>{blog.title} | {blog.author} <button onClick={showMoreToggle}>hide</button></p>
         <p>{blog.url}</p>
         <p>Likes {blog.likes} <button onClick={likeBlog}>like</button></p>
