@@ -37,7 +37,7 @@ const Blog = ({ blog, likePost, removeBlog, user }) => {
   }
 
   return (
-    <div>
+    <div className='individualBlog'>
       <div style={showLess} >
         <p>{blog.title} | {blog.author} <button onClick={showMoreToggle}>view</button></p>
       </div>
@@ -45,7 +45,7 @@ const Blog = ({ blog, likePost, removeBlog, user }) => {
       <div style={showAll} className="expanded">
         <p>{blog.title} | {blog.author} <button onClick={showMoreToggle}>hide</button></p>
         <p>{blog.url}</p>
-        <p>Likes {blog.likes} <button onClick={likeBlog}>like</button></p>
+        <p id='likesField'>Likes {blog.likes} <button onClick={likeBlog}>like</button></p>
         <p>{blog.user.username}</p>
         <ShowRemove user={user} blog={blog} deleteBlog={deleteBlog} />
       </div>

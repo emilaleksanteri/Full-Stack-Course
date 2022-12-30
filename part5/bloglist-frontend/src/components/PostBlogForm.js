@@ -26,6 +26,7 @@ const PostBlogForm = ({ postBlog }) => {
             name='title'
             onChange={onChangePostForm}
             placeholder='title'
+            id='title'
           />
         </div>
         <div>
@@ -36,6 +37,7 @@ const PostBlogForm = ({ postBlog }) => {
             name='author'
             onChange={onChangePostForm}
             placeholder='author'
+            id='author'
           />
         </div>
         <div>
@@ -46,9 +48,10 @@ const PostBlogForm = ({ postBlog }) => {
             name='url'
             onChange={onChangePostForm}
             placeholder='url'
+            id='url'
           />
         </div>
-        <button type='submit'>create</button>
+        <button id='postBlog-btn' type='submit'>create</button>
       </form>
     </>
   )

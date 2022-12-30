@@ -46,6 +46,11 @@ app.use('/api/login', loginRouter)
 // path in localhost has to be established to router
 app.use('/api/blogs', blogRouter)
 
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter = require('./controllers/reset')
+  app.use('/api/testing', testingRouter)
+}
+
 // add middleware for endpoint for individual blogs if needed later
 app.use(middleware.errorHandler)
 

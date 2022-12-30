@@ -13,7 +13,7 @@ const Error = (props) => {
   }
 
   return (
-    <p style={errorStyle}>{props.error}</p>
+    <p id="error" style={errorStyle}>{props.error}</p>
   )
 }
 

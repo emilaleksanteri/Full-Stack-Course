@@ -27,7 +27,7 @@ const App = () => {
       const user = await loginService.login(loginObject)
       // set user info to local storage for user
       window.localStorage.setItem(
-        'localUser', JSON.stringify(user)
+        'localBloggappUser', JSON.stringify(user)
       )
       blogService.setToken(user.token) // pass token to services to use
       setUser(user)
@@ -35,7 +35,7 @@ const App = () => {
       setNotification(`welcome ${user.name}`)
       setTimeout(() => {
         setNotification(null)
-      }, 2000)
+      }, 4000)
 
     } catch (excpetion) {
       console.log(excpetion)
@@ -48,7 +48,7 @@ const App = () => {
 
   // check local storage for token
   useEffect(() => {
-    const userDetailsJSON = window.localStorage.getItem('localUser')
+    const userDetailsJSON = window.localStorage.getItem('localBloggappUser')
 
     if (userDetailsJSON) {
       const user = JSON.parse(userDetailsJSON)
@@ -60,7 +60,7 @@ const App = () => {
   // get rid of current token in local storage
   const logoutUser = (event) => {
     event.preventDefault()
-    window.localStorage.removeItem('localUser')
+    window.localStorage.removeItem('localBloggappUser')
     setUser(null)
   }
 
@@ -155,9 +155,11 @@ const App = () => {
       <Notification notification={notification} />
       <Error error={error} />
       {pageContentControls()}
-      {sortByLikes.map(blog =>
-        <Blog key={blog.id} blog={blog} likePost={likePost} removeBlog={removeBlog} user={user}/>
-      )}
+      <div id='blogsList'>
+        {sortByLikes.map(blog =>
+          <Blog key={blog.id} blog={blog} likePost={likePost} removeBlog={removeBlog} user={user}/>
+        )}
+      </div>
     </>
   )
 }
