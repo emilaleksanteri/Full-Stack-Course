@@ -7,19 +7,19 @@ const initialState = {
 const counterReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GOOD':
-      const goodState = {...state}
-      const newGood = { ...goodState, good: goodState.good += 1}
-      state = {...newGood}
+      let goodState = {...state} // copy of state objext
+      goodState = { ...goodState, good: goodState.good += 1} // 
+      state = {...goodState}
       return state
     case 'OK':
-      const okState = {...state}
-      const newOk = { ...okState, ok: okState.ok += 1}
-      state = {...newOk}
+      let okState = {...state}
+      okState = { ...okState, ok: okState.ok += 1}
+      state = {...okState}
       return state
     case 'BAD':
-      const badState = {...state}
-      const newBad = { ...badState, bad: badState.bad += 1}
-      state = {...newBad}
+      let badState = {...state}
+      badState = { ...badState, bad: badState.bad += 1}
+      state = {...badState}
       return state
     case 'ZERO':
       state = initialState
