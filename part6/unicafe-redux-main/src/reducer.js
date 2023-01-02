@@ -8,7 +8,7 @@ const counterReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'GOOD':
       let goodState = {...state} // copy of state objext
-      goodState = { ...goodState, good: goodState.good += 1} // 
+      goodState = { ...goodState, good: goodState.good += 1} // increment wanted key value
       state = {...goodState}
       return state
     case 'OK':
