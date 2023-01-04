@@ -1,3 +1,5 @@
+import { createSlice } from "@reduxjs/toolkit"
+
 const anecdotesAtStart = [
   'If it hurts, do it more often',
   'Adding manpower to a late software project makes it later!',
@@ -20,44 +22,30 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject)
 
-const reducer = (state = initialState, action) => {
-  switch(action.type) {
-    case 'NEW_ANECDOTE':
-      return [...state, action.data] // update existing array w new anecdote via spread
-
-    case 'VOTE':
-      const id = action.data.id // get id
+const anecdotesSlice = createSlice({
+  name: 'anecdotes',
+  initialState,
+  reducers: {
+    addAnecdote(state, action) {
+      const content = action.payload
+      state.push({
+        content,
+        id: getId(),
+        votes: 0
+      })
+    },
+    voteAnecdote(state, action) {
+      const id = action.payload // get id
       const voteThis = state.find(anec => anec.id === id) // get object w matching id key
       const votedAnec = { // update votes on set object
         ...voteThis,
         votes: voteThis.votes += 1
       }
-      return state.map(anec => // update only changed object in a copy of state array, rest stay the same
-        anec.id !== id ? anec : votedAnec
-      )
-    default:
+      state.map(anec => anec.id !== id ? anec : votedAnec) // replace one with changed votes
       return state
-  }
-}
-
-// used by components/NewAnecdote to dispatch for state -> new anecdote
-export const addAnecdote = (anecdote) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data: {
-      content: anecdote,
-      id: getId(),
-      votes: 0
     }
-  }
-}
+  },
+})
 
-// used by components/AnecdoteList to dispatch for state -> vote
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
-  }
-}
-
-export default reducer
+export const { addAnecdote, voteAnecdote } = anecdotesSlice.actions
+export default anecdotesSlice.reducer

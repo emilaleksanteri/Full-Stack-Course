@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification, removeNotification } from '../reducers/notificationReducer'
 
 const Anecdote = ({ anecdote, handleClick }) => {
   return (
@@ -16,17 +17,32 @@ const Anecdote = ({ anecdote, handleClick }) => {
 }
 
 const AnecodeList = () => {
-  const anecdotes = useSelector(state => state).sort((first, second) => second.votes - first.votes) // sort by likes
   const dispatch = useDispatch()
+  const filter = useSelector(state => state.filter)
+
+  const anecdotesToFilter = useSelector(state => state.anecdotes)
+  // anecdotes matching filter search (case sensitive)
+  const filteredAnecdotes = anecdotesToFilter.filter(anecdote => anecdote.content.includes(filter))
+  // sort by likes: High -> Low
+  const anecdotesByMostLikes = filteredAnecdotes.sort((aVotes, bVotes) => bVotes.votes - aVotes.votes)
+
+  // let user know voting was succesful
+  const votingOnAnecdote = (id, content) => {
+    dispatch(voteAnecdote(id))
+    dispatch(setNotification('you voted ' + content))
+    setTimeout(() => {
+      dispatch(removeNotification())
+    }, 5000)
+  }
 
   return (
     <div>
-      {anecdotes.map(anecdote =>
+      {anecdotesByMostLikes.map(anecdote =>
         <Anecdote
           key={anecdote.id}
           anecdote={anecdote}
           handleClick={() =>
-            dispatch(voteAnecdote(anecdote.id)) // --> passed to function in reducers to process --> passed to reducer via dispatch
+            votingOnAnecdote(anecdote.id, anecdote.content) // --> passed to voting func, sends to reducer and sets notification
           } />
       )}
     </div>
