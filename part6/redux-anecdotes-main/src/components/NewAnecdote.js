@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
-import { addAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, removeNotification } from '../reducers/notificationReducer'
-import anecServices from '../services/anecdotes'
+import { createAnecdote } from '../reducers/anecdoteReducer'
+import { settingNotification } from '../reducers/notificationReducer'
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch()
@@ -10,15 +9,11 @@ const AnecdoteForm = () => {
     event.preventDefault()
 
     const content = event.target.anecdote.value // val based on input name --> anecdote
-    event.target.anecdote.value = ''
+    event.target.anecdote.value = '' // empty field
 
-    const newAnecdote = await anecServices.postAnecdote(content)
-    dispatch(addAnecdote(newAnecdote)) // --> passed to function in reducers to process to add to state
+    dispatch(createAnecdote(content)) // passed to Redux
     
-    dispatch(setNotification(content + ' has been added')) // let user know anecdote created
-    setTimeout(() => {
-      dispatch(removeNotification())
-    }, 5000)
+    dispatch(settingNotification(`${content} added`, 5))
   }
 
   return (

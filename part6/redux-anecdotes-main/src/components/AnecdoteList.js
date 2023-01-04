@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { voteAnecdote } from '../reducers/anecdoteReducer'
-import { setNotification, removeNotification } from '../reducers/notificationReducer'
+import { voteForPost } from '../reducers/anecdoteReducer'
+import { settingNotification } from '../reducers/notificationReducer'
 
 const Anecdote = ({ anecdote, handleClick }) => {
   return (
@@ -27,12 +27,9 @@ const AnecodeList = () => {
   const anecdotesByMostLikes = filteredAnecdotes.sort((aVotes, bVotes) => bVotes.votes - aVotes.votes)
 
   // let user know voting was succesful
-  const votingOnAnecdote = (id, content) => {
-    dispatch(voteAnecdote(id))
-    dispatch(setNotification('you voted ' + content))
-    setTimeout(() => {
-      dispatch(removeNotification())
-    }, 5000)
+  const votingOnAnecdote = (anecdote) => {
+    dispatch(voteForPost(anecdote))
+    dispatch(settingNotification(`you voted for ${anecdote.content}`, 5))
   }
 
   return (
@@ -42,7 +39,7 @@ const AnecodeList = () => {
           key={anecdote.id}
           anecdote={anecdote}
           handleClick={() =>
-            votingOnAnecdote(anecdote.id, anecdote.content) // --> passed to voting func, sends to reducer and sets notification
+            votingOnAnecdote(anecdote) // --> passed to voting func, sends to reducer and sets notification
           } />
       )}
     </div>
