@@ -19,7 +19,7 @@ const notificationSlice = createSlice({
 })
 
 export const settingNotification = (notification, time) => {
-  return dispatch => {
+  return dispatch => { // TO DO!!! -> cancel sequencial timout calls
     dispatch((setNotification(notification)))
     setTimeout(() => {dispatch(removeNotification())}, time*1000)
   }

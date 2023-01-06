@@ -1,6 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux'
 import { voteForPost } from '../reducers/anecdoteReducer'
 import { settingNotification } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
 const Anecdote = ({ anecdote, handleClick }) => {
   return (
@@ -16,11 +16,10 @@ const Anecdote = ({ anecdote, handleClick }) => {
   )
 }
 
-const AnecodeList = () => {
-  const dispatch = useDispatch()
-  const filter = useSelector(state => state.filter)
+const AnecodeList = (props) => {
+  const filter = props.filter
 
-  const anecdotesToFilter = useSelector(state => state.anecdotes)
+  const anecdotesToFilter = props.anecdotes
   // anecdotes matching filter search (case sensitive)
   const filteredAnecdotes = anecdotesToFilter.filter(anecdote => anecdote.content.includes(filter))
   // sort by likes: High -> Low
@@ -28,8 +27,8 @@ const AnecodeList = () => {
 
   // let user know voting was succesful
   const votingOnAnecdote = (anecdote) => {
-    dispatch(voteForPost(anecdote))
-    dispatch(settingNotification(`you voted for ${anecdote.content}`, 5))
+    props.voteForPost(anecdote)
+    props.settingNotification(`you voted for ${anecdote.content}`, 5)
   }
 
   return (
@@ -46,4 +45,27 @@ const AnecodeList = () => {
   )
 }
 
-export default AnecodeList
+const mapDispatchToProps = (dispatch) => {
+  return {
+    settingNotification: (notification, time) => {
+      dispatch(settingNotification(notification, time))
+    },
+    voteForPost: anecdote => {
+      dispatch(voteForPost(anecdote))
+    }
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    filter: state.filter,
+    anecdotes: state.anecdotes
+  }
+}
+
+const connectedAnecdotes = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecodeList)
+
+export default connectedAnecdotes
