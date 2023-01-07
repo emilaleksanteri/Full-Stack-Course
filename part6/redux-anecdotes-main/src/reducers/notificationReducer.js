@@ -17,11 +17,12 @@ const notificationSlice = createSlice({
     }
   }
 })
-
-export const settingNotification = (notification, time) => {
-  return dispatch => { // TO DO!!! -> cancel sequencial timout calls
-    dispatch((setNotification(notification)))
-    setTimeout(() => {dispatch(removeNotification())}, time*1000)
+let notificationId // keeps track of current id of notification clearing timeout
+export const settingNotification = (notificationToSet, time) => {
+  return dispatch => {
+    clearTimeout(notificationId) // removes the timout call from previous one -> from stored notificationId
+    dispatch((setNotification(notificationToSet)))
+    notificationId = setTimeout(() => {dispatch(removeNotification())}, time*1000)
   }
 }
 
