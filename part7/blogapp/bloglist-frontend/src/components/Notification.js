@@ -1,37 +1,27 @@
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
-  const notification = useSelector(state => state.notification)
+  const notification = useSelector((state) => state.notification)
 
   if (notification === null) {
     return null
   }
 
-  let notificationStyle = {
-    border: 'solid green',
-    borderRadius: '10px',
-    backgroundColor: 'lightgrey',
-    padding: '10px',
-    fontSize: '20px',
-    color: 'green',
+  if (notification.type === 'success') {
+    return (
+      <p className="text-4xl text-zinc-900 border-2 border-green-400 bg-green-400 p-4 text-center m-2 rounded-md font-extrabold">
+        {notification.notification}
+      </p>
+    )
   }
 
   if (notification.type === 'error') {
-    notificationStyle = {
-      border: 'solid red',
-      borderRadius: '10px',
-      backgroundColor: 'lightgrey',
-      padding: '10px',
-      fontSize: '20px',
-      color: 'red',
-    }
+    return (
+      <p className="text-4xl text-zinc-900 border-2 border-rose-400 bg-rose-400 p-4 text-center m-2 rounded-md font-extrabold">
+        {notification.notification}
+      </p>
+    )
   }
-
-  return (
-    <p id="notification" style={notificationStyle}>
-      {notification.notification}
-    </p>
-  )
 }
 
 export default Notification

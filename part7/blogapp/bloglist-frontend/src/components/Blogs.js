@@ -27,9 +27,9 @@ const Blogs = ({ blogs }) => {
   }
 
   return (
-    <>
+    <div>
       {showCreate()}
-      <div id="blogsList">
+      <div >
         {sortByLikes.map((blog) => (
           <Blog
             key={blog.id}
@@ -38,7 +38,7 @@ const Blogs = ({ blogs }) => {
           />
         ))}
       </div>
-    </>
+    </div>
   )
 }
 

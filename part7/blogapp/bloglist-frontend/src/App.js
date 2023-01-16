@@ -11,18 +11,14 @@ import { allUsers } from './reducers/usersReducer'
 import UserPage from './components/UserPage'
 import BlogView from './components/BlogView'
 
-import {
-  Routes,
-  Route,
-  useMatch,
-  Link
-} from 'react-router-dom'
+import { Routes, Route, useMatch, Link } from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
-  const userAuth = useSelector(state => state.login)
+  const userAuth = useSelector((state) => state.login)
 
-  useEffect(() => { // initialize blogs and users
+  useEffect(() => {
+    // initialize blogs and users
     dispatch(initialBlogs())
     dispatch(allUsers())
   }, [dispatch])
@@ -54,42 +50,50 @@ const App = () => {
 
   // TO DO -> Make custom hook for useMatch
   // set up for users and user pages
-  const users = useSelector(state => state.users)
+  const users = useSelector((state) => state.users)
   const matchUser = useMatch('/users/:id')
 
   const user = matchUser
-    ? users.find(user => user.id === matchUser.params.id)
+    ? users.find((user) => user.id === matchUser.params.id)
     : null
 
   // set up for blogs and blogs page
-  const blogs = useSelector(state => state.blogs)
+  const blogs = useSelector((state) => state.blogs)
   const matchBlog = useMatch('/blogs/:id')
 
   const blog = matchBlog
-    ? blogs.find(blog => blog.id === matchBlog.params.id)
+    ? blogs.find((blog) => blog.id === matchBlog.params.id)
     : null
-
-  const menuDivStyle = {
-    display: 'flex',
-    background: 'lightgray'
-  }
-
-  const padding = {
-    padding: 5
-  }
 
   // return for app
   return (
-    <>
-      <div style={menuDivStyle}>
-        <Link style={padding} to={'/'}><p>blogs</p></Link>
-        <Link style={padding} to={'/users'}><p>users</p></Link>
-        {userAuth
-          ? <p style={padding} >{userAuth.name} logged in <button onClick={logoutUser}>logout</button></p>
-          : null
-        }
+    <div className="relative">
+      <div className="font-mono w-screen bg-yellow-400 opacity-50 hover:opacity-100 fixed top-0 flex p-4 md:text-md text-sm font-extrabold text-zinc-900 tracking-wider">
+        <Link to={'/'}>
+          <p className="mx-5 hover:underline hover:decoration-zinc-900 py-0.5">
+            blogs
+          </p>
+        </Link>
+        <Link to={'/users'}>
+          <p className="hover:underline hover:decoration-zinc-900 py-0.5">
+            users
+          </p>
+        </Link>
+        {userAuth ? (
+          <p className="ml-5">
+            {userAuth.name} logged in{' '}
+            <button
+              onClick={logoutUser}
+              className="border-2 border-zinc-900 text-md rounded-md hover:bg-zinc-900 hover:text-yellow-400 shadow-lg"
+            >
+              logout
+            </button>
+          </p>
+        ) : null}
       </div>
-      <h1>Blog App.</h1>
+      <h1 className="font-mono text-6xl p-5 font-extrabold text-zinc-100 text-center underline decoration-green-500 w-auto my-12">
+        Blog App
+      </h1>
       <Notification />
       {pageContentControls()}
       <Routes>
@@ -98,7 +102,7 @@ const App = () => {
         <Route path="/" element={<Blogs blogs={blogs} />} />
         <Route path="/blogs/:id" element={<BlogView blog={blog} />} />
       </Routes>
-    </>
+    </div>
   )
 }
 

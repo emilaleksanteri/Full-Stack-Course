@@ -20,11 +20,19 @@ const ToggleVisibility = forwardRef((props, refs) => {
   return (
     <div>
       <div style={hideChild}>
-        <button onClick={toggleState}>{props.buttonLabel}</button>
+        <button onClick={toggleState} className='mx-5 text-xl text-zinc-100 font-extrabold hover:text-green-500 border-2 rounded-md
+        border-zinc-100 hover:border-green-500 p-2'
+        >
+          {props.buttonLabel}
+        </button>
       </div>
       <div style={showChild}>
         {props.children}
-        <button onClick={toggleState}>cancel</button>
+        <button onClick={toggleState} className='mx-5 text-xl text-zinc-100 font-extrabold hover:text-rose-500 border-2 rounded-md
+        border-zinc-100 hover:border-rose-500 p-2'
+        >
+          cancel
+        </button>
       </div>
     </div>
   )

@@ -29,8 +29,8 @@ const blogSlice = createSlice({
     addComment(state, action) {
       const id = action.payload.blog
       const addCommentToThis = state.find(blog => blog.id === id)
-      const commentOn = { ...addCommentToThis }
-      commentOn.comments = commentOn.comments.concat(action.payload)
+      const commentOn = { ...addCommentToThis } // copy of state
+      commentOn.comments = commentOn.comments.concat(action.payload) // added new comment
       state = state.map(blog => blog.id !== id ? blog : commentOn)
       return state
     }
@@ -71,7 +71,7 @@ export const removeBlog = blogToRemove => {
 export const commentBlog = (comment, id) => {
   return async dispatch => {
     const postedComment = await commentService.postComment(comment, id)
-    const commentObject = { comment: comment, blog: id, id: postedComment.id }
+    const commentObject = { comment: comment, blog: id, id: postedComment.id } // get representative id from promise
     dispatch(addComment(commentObject))
   }
 }
