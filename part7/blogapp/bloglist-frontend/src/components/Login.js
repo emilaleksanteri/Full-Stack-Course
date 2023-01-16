@@ -1,5 +1,4 @@
 import { useDispatch } from 'react-redux'
-import { dispatchNotification } from '../reducers/notificationReducer'
 import { login } from '../reducers/loginReducer'
 
 const Login = () => {
@@ -14,16 +13,6 @@ const Login = () => {
     }
 
     dispatch(login(loginCredentials))
-
-    dispatch(
-      dispatchNotification(
-        {
-          notification: `welcome ${loginCredentials.username}`,
-          type: 'success',
-        },
-        5
-      )
-    )
   }
 
   return (

@@ -1,6 +1,5 @@
 import { commentBlog } from '../reducers/blogReducer'
 import { useDispatch } from 'react-redux'
-import { dispatchNotification } from '../reducers/notificationReducer'
 
 const Comment = ({ id }) => {
   const dispatch = useDispatch()
@@ -10,16 +9,6 @@ const Comment = ({ id }) => {
     const comment = event.target.comment.value
     dispatch(commentBlog(comment, id))
     event.target.comment.value = ''
-
-    dispatch(
-      dispatchNotification(
-        {
-          notification: 'comment added',
-          type: 'success',
-        },
-        5
-      )
-    )
   }
   return (
     <form onSubmit={handleComment} className="mx-10 text-zinc-100">
