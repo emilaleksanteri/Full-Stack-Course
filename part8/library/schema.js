@@ -1,6 +1,4 @@
-const { gql } = require('apollo-server');
-
-const typeDefs = gql`
+const typeDefs = `
   type Author {
     name: String!
     born: Int
