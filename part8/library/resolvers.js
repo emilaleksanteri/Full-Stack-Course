@@ -1,9 +1,11 @@
-const { UserInputError, AuthenticationError } = require('@apollo/server');
+const { UserInputError, AuthenticationError } = require('apollo-server');
 const jwt = require('jsonwebtoken');
 const Book = require('./models/book');
 const Author = require('./models/author');
 const User = require('./models/user');
 require('dotenv').config();
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub();
 
 const resolvers = {
   Query: {
@@ -90,6 +92,9 @@ const resolvers = {
           invalidArgs: args,
         });
       }
+
+      pubsub.publish('BOOK_ADDED', { bookAdded: book });
+
       return book;
     },
     editAuthor: async (root, args, { currentUser }) => {
@@ -126,6 +131,11 @@ const resolvers = {
 
       const token = jwt.sign(userToken, process.env.JWT_SECRET);
       return { value: token };
+    },
+  },
+  Subscription: {
+    bookAdded: {
+      subscribe: () => pubsub.asyncIterator('BOOK_ADDED'),
     },
   },
 };
