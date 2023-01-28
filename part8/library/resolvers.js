@@ -1,7 +1,9 @@
 const { UserInputError, AuthenticationError } = require('@apollo/server');
 const jwt = require('jsonwebtoken');
-const Person = require('./models/person');
+const Book = require('./models/book');
+const Author = require('./models/author');
 const User = require('./models/user');
+require('dotenv').config();
 
 const resolvers = {
   Query: {
