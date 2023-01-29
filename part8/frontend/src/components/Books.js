@@ -1,27 +1,29 @@
 import { useQuery } from '@apollo/client';
-import { ALL_BOOKS } from '../queries';
+import { ALL_BOOKS, ALL_GENRES } from '../queries';
 import { useState } from 'react';
 
 const Books = (props) => {
   const [genreFilter, setGenreFilter] = useState(null);
 
-  const result = useQuery(ALL_BOOKS, {
+  const booksQuery = useQuery(ALL_BOOKS, {
     variables: {
       genre: genreFilter ? genreFilter : null,
     },
   });
 
+  const genresQuery = useQuery(ALL_GENRES);
+
   if (!props.show) {
     return null;
   }
 
-  if (result.loading) {
+  if (booksQuery.loading) {
     return <div>loading...</div>;
   }
   // books
-  const books = result.data.allBooks;
+  const books = booksQuery.data.allBooks;
   // filters
-  const genresOfBooks = result.data.genres;
+  const genresOfBooks = genresQuery.data.allBooks;
 
   // make array to make filter btns
   const genres = [...new Set(genresOfBooks.map((g) => g.genres).flat())];

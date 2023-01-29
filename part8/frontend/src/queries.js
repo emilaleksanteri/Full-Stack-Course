@@ -14,7 +14,7 @@ const BOOK_DETAILS = gql`
 `;
 
 export const ALL_AUTHORS = gql`
-  query {
+  query allAuthors {
     allAuthors {
       name
       born
@@ -29,11 +29,16 @@ export const ALL_BOOKS = gql`
     allBooks: allBooks(genre: $genre) {
       ...BookDetails
     }
-    genres: allBooks {
+  }
+  ${BOOK_DETAILS}
+`;
+
+export const ALL_GENRES = gql`
+  query allGenres {
+    allBooks {
       genres
     }
   }
-  ${BOOK_DETAILS}
 `;
 
 export const RECOMMENDED_BOOKS = gql`
@@ -58,10 +63,12 @@ export const ADD_BOOK = gql`
       author: $author
       genres: $genres
     ) {
-      ...BookDetails
+      title
+      published
+      id
+      genres
     }
   }
-  ${BOOK_DETAILS}
 `;
 
 export const ADD_YEAR = gql`
@@ -84,7 +91,7 @@ export const LOGIN = gql`
 `;
 
 export const FAVOURITE_GENRE = gql`
-  query {
+  query favBooks {
     me {
       favouriteGenre
     }
@@ -94,8 +101,16 @@ export const FAVOURITE_GENRE = gql`
 export const BOOK_ADDED = gql`
   subscription {
     bookAdded {
-      ...BookDetails
+      title
+      published
+      id
+      genres
+      author {
+        name
+        born
+        id
+        bookCount
+      }
     }
   }
-  ${BOOK_DETAILS}
 `;

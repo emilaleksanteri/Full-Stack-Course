@@ -63,10 +63,10 @@ const resolvers = {
   },
   Mutation: {
     addBook: async (root, args, { currentUser }) => {
-      console.log(currentUser);
       if (!currentUser) {
         throw new AuthenticationError('your are not authorized');
       }
+      let book;
 
       const author = await Author.findOne({ name: args.author });
       if (!author) {
@@ -74,8 +74,12 @@ const resolvers = {
         try {
           const author = new Author({ name: args.author });
           const authorSaved = await author.save();
-          const book = new Book({ ...args, author: authorSaved._id });
-          return book.save().populate('author');
+          book = new Book({ ...args, author: authorSaved._id });
+          await book.save();
+          const populatedBook = book.populate('author');
+          pubsub.publish('BOOK_ADDED', { bookAdded: populatedBook });
+
+          return book;
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs: args,
@@ -84,17 +88,16 @@ const resolvers = {
       }
 
       // if not a new author
-      let book = new Book({ ...args, author: author._id });
+      book = new Book({ ...args, author: author._id });
       try {
-        const savedBook = await book.save();
-        book = savedBook.populate('author');
+        await book.save();
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
         });
       }
-
-      pubsub.publish('BOOK_ADDED', { bookAdded: book });
+      const populatedBook = book.populate('author');
+      pubsub.publish('BOOK_ADDED', { bookAdded: populatedBook });
 
       return book;
     },

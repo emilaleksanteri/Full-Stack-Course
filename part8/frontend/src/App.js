@@ -10,7 +10,7 @@ import {
   useSubscription,
 } from '@apollo/client';
 import Recommendations from './components/Recommendations';
-import { BOOK_ADDED } from './queries';
+import { BOOK_ADDED, ALL_BOOKS, ALL_AUTHORS } from './queries';
 
 const App = () => {
   const [page, setPage] = useState('authors');
@@ -19,9 +19,27 @@ const App = () => {
 
   useSubscription(BOOK_ADDED, {
     onData: ({ data }) => {
-      console.log(data);
       const newBook = data.data.bookAdded;
-      window.alert(`New Book! ${newBook.title}`);
+      window.alert(`New Book! ${newBook.title}`); // let user know about qrey
+
+      client.cache.updateQuery(
+        {
+          query: ALL_BOOKS,
+          variables: {
+            genre: null,
+          },
+        },
+        ({ allBooks }) => {
+          return {
+            allBooks: allBooks.concat(newBook),
+          };
+        }
+      );
+      client.cache.updateQuery({ query: ALL_AUTHORS }, ({ allAuthors }) => {
+        return {
+          allAuthors: allAuthors.concat(newBook.author),
+        };
+      });
     },
   });
 
