@@ -1,7 +1,17 @@
 import { useQuery } from '@apollo/client';
-import { RECOMMENDED_BOOKS } from '../queries';
+import { useEffect } from 'react';
+import { RECOMMENDED_BOOKS, FAVOURITE_GENRE } from '../queries';
 
 const Recommendations = ({ show }) => {
+  const favouriteGenre = useQuery(FAVOURITE_GENRE);
+
+  useEffect(() => {
+    if (favouriteGenre.data) {
+      const favGenre = favouriteGenre.data.me.favouriteGenre;
+      localStorage.setItem('favouriteGenre', favGenre);
+    }
+  });
+
   const favGenre = localStorage.getItem('favouriteGenre');
 
   const result = useQuery(RECOMMENDED_BOOKS, {
@@ -17,8 +27,10 @@ const Recommendations = ({ show }) => {
   if (result.loading) {
     return <div>loading...</div>;
   }
-
-  const books = result.data.allBooks;
+  let books;
+  if (result.data) {
+    books = result.data.allBooks;
+  }
 
   return (
     <div>

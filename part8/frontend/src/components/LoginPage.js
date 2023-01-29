@@ -1,21 +1,18 @@
 import { useState, useEffect } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
-import { LOGIN, FAVOURITE_GENRE } from '../queries';
+import { useMutation } from '@apollo/client';
+import { LOGIN } from '../queries';
 
 const LoginPage = ({ setToken, show }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const [login, result] = useMutation(LOGIN);
-  const favouriteGenre = useQuery(FAVOURITE_GENRE);
 
   useEffect(() => {
-    if (result.data && favouriteGenre) {
+    if (result.data) {
       const token = result.data.login.value;
-      const favGenre = favouriteGenre.data.me.favouriteGenre;
       setToken(token);
       localStorage.setItem('library-card', token);
-      localStorage.setItem('favouriteGenre', favGenre);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [result.data]);

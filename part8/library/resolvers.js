@@ -75,7 +75,7 @@ const resolvers = {
           const author = new Author({ name: args.author });
           const authorSaved = await author.save();
           const book = new Book({ ...args, author: authorSaved._id });
-          return book.save();
+          return book.save().populate('author');
         } catch (error) {
           throw new UserInputError(error.message, {
             invalidArgs: args,
@@ -84,9 +84,10 @@ const resolvers = {
       }
 
       // if not a new author
-      const book = new Book({ ...args, author: author._id });
+      let book = new Book({ ...args, author: author._id });
       try {
-        await book.save();
+        const savedBook = await book.save();
+        book = savedBook.populate('author');
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
