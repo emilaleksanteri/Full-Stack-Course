@@ -55,10 +55,8 @@ const resolvers = {
   },
   Author: {
     bookCount: async (obj) => {
-      const booksOfAuthor = await Book.find({
-        author: { $in: [obj._id] },
-      });
-      return booksOfAuthor.length;
+      const lenghtOfBooks = obj.books.length;
+      return lenghtOfBooks;
     },
   },
   Mutation: {
@@ -74,8 +72,15 @@ const resolvers = {
         try {
           const author = new Author({ name: args.author });
           const authorSaved = await author.save();
+
           book = new Book({ ...args, author: authorSaved._id });
           await book.save();
+
+          // get saved book
+          const savedBook = await Book.findOne({ title: args.title });
+          authorSaved.books = authorSaved.books.concat(savedBook._id);
+          await authorSaved.save();
+
           const populatedBook = book.populate('author');
           pubsub.publish('BOOK_ADDED', { bookAdded: populatedBook });
 
@@ -91,6 +96,9 @@ const resolvers = {
       book = new Book({ ...args, author: author._id });
       try {
         await book.save();
+        const savedBook = await Book.findOne({ title: args.title });
+        author.books = author.books.concat(savedBook._id);
+        await author.save();
       } catch (error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
