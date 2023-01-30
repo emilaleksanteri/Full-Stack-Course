@@ -30,8 +30,6 @@ mongoose
     console.log(error.message);
   });
 
-mongoose.set('debug', true);
-
 // initialize server
 const start = async () => {
   const app = express();

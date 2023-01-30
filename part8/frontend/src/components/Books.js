@@ -26,13 +26,7 @@ const Books = (props) => {
   const genresOfBooks = genresQuery.data.allBooks;
 
   // make array to make filter btns
-  const genres = [
-    ...new Set(
-      genresOfBooks
-        .map((book) => book.genres.map((genre) => genre.toLowerCase()))
-        .flat()
-    ),
-  ];
+  const genres = [...new Set(genresOfBooks.map((book) => book.genres).flat())];
 
   return (
     <div>
