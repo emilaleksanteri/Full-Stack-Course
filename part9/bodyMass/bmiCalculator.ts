@@ -20,4 +20,32 @@ const caluclateBmi = (weight: number, height: number): string => {
   }
 };
 
-console.log(caluclateBmi(115, 1.95));
+interface bmiValues {
+  weight: number;
+  height: number;
+}
+
+const parseArgsBmi = (args: Array<string>): bmiValues => {
+  if (args.length < 4) throw new Error('not enough arguments');
+  if (args.length > 4) throw new Error('too many arguments');
+  const w = Number(args[2]);
+  const h = Number(args[3]);
+
+  if (isNaN(w) || isNaN(h)) throw new Error('arguments were not numbers');
+
+  return {
+    weight: w,
+    height: h,
+  };
+};
+
+try {
+  const { weight, height } = parseArgsBmi(process.argv);
+  console.log(caluclateBmi(weight, height));
+} catch (error: unknown) {
+  let errorMsg = 'Something bad happened..';
+  if (error instanceof Error) {
+    errorMsg += 'Error: ' + error.message;
+  }
+  console.log(errorMsg);
+}

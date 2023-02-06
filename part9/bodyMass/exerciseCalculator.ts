@@ -43,4 +43,35 @@ const calculateExercises = (
 
 interface exerciseValues {
   exerciseArray: Array<number>;
+  targethrs: number;
+}
+
+const parseArgsExer = (args: Array<string>): exerciseValues => {
+  if (args.length < 4) throw new Error('Not enogh arguments!!'); // can have 1 exercise day and one target, min is 4 args
+  let exercises: Array<number> = [];
+  const target = Number(args[args.length - 1]);
+
+  if (isNaN(target)) throw new Error('Provided values were not numbers');
+
+  for (let i = 2; i < args.length - 1; i++) {
+    let hour = Number(args[i]);
+    if (isNaN(hour)) throw new Error('Provided values were not numbers!');
+    exercises.push(hour);
+  }
+
+  return {
+    exerciseArray: exercises,
+    targethrs: target,
+  };
+};
+
+try {
+  const { exerciseArray, targethrs } = parseArgsExer(process.argv);
+  console.log(calculateExercises(exerciseArray, targethrs));
+} catch (error: unknown) {
+  let errorMsg = 'Something bad happened..';
+  if (error instanceof Error) {
+    errorMsg += 'Error: ' + error.message;
+  }
+  console.log(errorMsg);
 }
